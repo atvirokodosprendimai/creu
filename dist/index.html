@@ -23,549 +23,100 @@
             --pink: #ec4899;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
 
-        html {
-            scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
-        }
+        .slide { min-height: 100vh; padding: 4rem; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: start; position: relative; overflow: hidden; }
+        .slide::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.4; pointer-events: none; }
+        .slide-1::before { background: radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%); }
+        .slide-2::before { background: radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%); }
+        .slide-3::before { background: radial-gradient(ellipse at 30% 70%, rgba(255, 107, 53, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, rgba(251, 191, 36, 0.12) 0%, transparent 50%); }
+        .grid-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+        .content { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; width: 100%; }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 2rem; color: var(--text-primary); }
+        h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--green); }
+        .subtitle { font-size: 1.5rem; color: var(--text-muted); max-width: 600px; font-weight: 300; }
+        .tag { display: inline-block; padding: 0.5rem 1rem; background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--green); margin-bottom: 1rem; }
 
-        /* Slide container */
-        .slide {
-            min-height: 100vh;
-            padding: 4rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            scroll-snap-align: start;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Backgrounds */
-        .slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        .slide-1::before {
-            background: 
-                radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
-        }
-
-        .slide-2::before {
-            background: 
-                radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
-        }
-
-        .slide-3::before {
-            background: 
-                radial-gradient(ellipse at 30% 70%, rgba(255, 107, 53, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 30%, rgba(251, 191, 36, 0.12) 0%, transparent 50%);
-        }
-
-        /* Grid pattern overlay */
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* Typography */
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--green);
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            font-weight: 300;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 100px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.875rem;
-            color: var(--green);
-            margin-bottom: 1rem;
-        }
-
-        /* Code blocks */
-        .code-block {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
+        .code-block { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; overflow-x: auto; margin: 1rem 0; }
         .code-block .comment { color: var(--text-muted); }
         .code-block .keyword { color: var(--purple); }
         .code-block .string { color: var(--green); }
         .code-block .number { color: var(--orange); }
 
-        /* Cards */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--blue)); opacity: 0; transition: opacity 0.3s ease; }
+        .card:hover { border-color: rgba(0, 255, 136, 0.3); transform: translateY(-4px); }
+        .card:hover::before { opacity: 1; }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .card h4 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .card p { color: var(--text-muted); font-size: 0.95rem; }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--green), var(--blue));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 255, 136, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Architecture diagram */
-        .architecture {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .arch-layer {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border-left: 4px solid;
-            animation: slideIn 0.5s ease forwards;
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
+        .architecture { display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0; }
+        .arch-layer { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border-left: 4px solid; animation: slideIn 0.5s ease forwards; opacity: 0; transform: translateX(-20px); }
         .arch-layer:nth-child(1) { border-color: var(--blue); animation-delay: 0.1s; }
         .arch-layer:nth-child(2) { border-color: var(--green); animation-delay: 0.2s; }
         .arch-layer:nth-child(3) { border-color: var(--purple); animation-delay: 0.3s; }
         .arch-layer:nth-child(4) { border-color: var(--orange); animation-delay: 0.4s; }
         .arch-layer:nth-child(5) { border-color: var(--yellow); animation-delay: 0.5s; }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+        .arch-label { min-width: 140px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); }
+        .arch-content { flex: 1; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .arch-node { background: rgba(255,255,255,0.05); padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+        .arch-node.highlight { background: rgba(0, 255, 136, 0.15); border: 1px solid rgba(0, 255, 136, 0.3); }
 
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+        .two-legs { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+        .leg { background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 2px solid; }
+        .leg.public { border-color: var(--orange); }
+        .leg.mesh { border-color: var(--green); }
+        .leg h4 { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .leg-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .leg.public .leg-icon { background: rgba(255, 107, 53, 0.2); }
+        .leg.mesh .leg-icon { background: rgba(0, 255, 136, 0.2); }
 
-        .arch-label {
-            min-width: 140px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+        .nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.75rem; z-index: 100; }
+        .nav-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; cursor: pointer; transition: all 0.3s ease; }
+        .nav-dot:hover, .nav-dot.active { background: var(--green); transform: scale(1.3); }
+        .slide-counter { position: fixed; bottom: 2rem; left: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-muted); z-index: 100; }
+        .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--blue)); z-index: 100; transition: width 0.3s ease; }
 
-        .arch-content {
-            flex: 1;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .arch-node {
-            background: rgba(255,255,255,0.05);
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .arch-node.highlight {
-            background: rgba(0, 255, 136, 0.15);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
-
-        /* Flow arrows */
-        .flow-connector {
-            display: flex;
-            justify-content: center;
-            padding: 0.5rem 0;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-        }
-
-        /* Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            font-size: 0.95rem;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 1rem 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .comparison-table th {
-            background: var(--bg-card);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .comparison-table tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
+        .comparison-table th, .comparison-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .comparison-table th { background: var(--bg-card); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .comparison-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; }
         .badge-green { background: rgba(0, 255, 136, 0.15); color: var(--green); }
         .badge-blue { background: rgba(0, 212, 255, 0.15); color: var(--blue); }
         .badge-purple { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
         .badge-orange { background: rgba(255, 107, 53, 0.15); color: var(--orange); }
 
-        /* Network diagram */
-        .network-diagram {
-            display: grid;
-            grid-template-rows: auto auto auto auto auto;
-            gap: 0;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 16px;
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .diagram-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            padding: 1rem 0;
-            position: relative;
-        }
-
-        .diagram-node {
-            background: var(--bg-accent);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 120px;
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            z-index: 2;
-        }
-
+        .network-diagram { display: flex; flex-direction: column; gap: 0; padding: 2rem; background: var(--bg-card); border-radius: 16px; margin: 2rem 0; position: relative; }
+        .diagram-row { display: flex; justify-content: center; align-items: center; gap: 2rem; padding: 1rem 0; position: relative; }
+        .diagram-node { background: var(--bg-accent); padding: 1rem 1.5rem; border-radius: 12px; text-align: center; min-width: 120px; border: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 2; }
         .diagram-node.dns { border-color: var(--blue); }
         .diagram-node.user { border-color: var(--purple); }
         .diagram-node.edge { border-color: var(--orange); }
-        .diagram-node.mesh { 
-            border-color: var(--green); 
-            background: rgba(0, 255, 136, 0.1);
-            min-width: 200px;
-        }
+        .diagram-node.mesh { border-color: var(--green); background: rgba(0, 255, 136, 0.1); min-width: 200px; }
         .diagram-node.origin { border-color: var(--yellow); }
+        .diagram-node-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-family: 'JetBrains Mono', monospace; }
+        .diagram-node-title { font-weight: 600; font-size: 0.9rem; }
+        .diagram-arrow { color: var(--text-muted); font-size: 1.5rem; display: flex; justify-content: center; padding: 0.25rem 0; }
 
-        .diagram-node-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
+        .highlight-box { background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1)); border: 1px solid rgba(0, 255, 136, 0.2); border-radius: 12px; padding: 1.5rem 2rem; margin: 2rem 0; }
+        .highlight-box p { font-size: 1.1rem; color: var(--text-primary); }
+        .bullet-list { list-style: none; margin: 1.5rem 0; }
+        .bullet-list li { padding: 0.75rem 0; padding-left: 2rem; position: relative; color: var(--text-muted); }
+        .bullet-list li::before { content: '→'; position: absolute; left: 0; color: var(--green); font-weight: bold; }
+        .bullet-list li strong { color: var(--text-primary); }
 
-        .diagram-node-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+        .guide-link { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.2)); border: 2px solid var(--green); border-radius: 12px; color: var(--green); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; }
+        .guide-link:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2); }
 
-        .diagram-arrow {
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            padding: 0.25rem 0;
-        }
-
-        /* Two legs visualization */
-        .two-legs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .leg {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 2rem;
-            border: 2px solid;
-        }
-
-        .leg.public { border-color: var(--orange); }
-        .leg.mesh { border-color: var(--green); }
-
-        .leg h4 {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .leg-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .leg.public .leg-icon { background: rgba(255, 107, 53, 0.2); }
-        .leg.mesh .leg-icon { background: rgba(0, 255, 136, 0.2); }
-
-        /* Navigation */
-        .nav {
-            position: fixed;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            z-index: 100;
-        }
-
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .nav-dot:hover,
-        .nav-dot.active {
-            background: var(--green);
-            transform: scale(1.3);
-        }
-
-        /* Slide counter */
-        .slide-counter {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            z-index: 100;
-        }
-
-        /* Progress bar */
-        .progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--green), var(--blue));
-            z-index: 100;
-            transition: width 0.3s ease;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .slide {
-                padding: 2rem;
-            }
-            
-            .two-legs {
-                grid-template-columns: 1fr;
-            }
-
-            .nav {
-                display: none;
-            }
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Bullet points */
-        .bullet-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-
-        .bullet-list li {
-            padding: 0.75rem 0;
-            padding-left: 2rem;
-            position: relative;
-            color: var(--text-muted);
-        }
-
-        .bullet-list li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--green);
-            font-weight: bold;
-        }
-
-        .bullet-list li strong {
-            color: var(--text-primary);
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem 2rem;
-            margin: 2rem 0;
-        }
-
-        .highlight-box p {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-        }
-
-        /* Emoji flag */
-        .flag {
-            font-size: 1.5rem;
-            margin-right: 0.5rem;
-        }
+        @media (max-width: 768px) { .slide { padding: 2rem; } .two-legs { grid-template-columns: 1fr; } .nav { display: none; } }
     </style>
 </head>
 <body>
@@ -580,10 +131,11 @@
         <button class="nav-dot" data-slide="5"></button>
         <button class="nav-dot" data-slide="6"></button>
         <button class="nav-dot" data-slide="7"></button>
+        <button class="nav-dot" data-slide="8"></button>
     </nav>
 
     <div class="slide-counter">
-        <span id="current">01</span> / <span id="total">08</span>
+        <span id="current">01</span> / <span id="total">09</span>
     </div>
 
     <!-- Slide 1: Title -->
@@ -660,65 +212,27 @@
                         <div class="diagram-node-title">www.delfi.lt → 2001:db8::1</div>
                     </div>
                 </div>
-                
                 <div class="diagram-arrow">↓ same IP for everyone</div>
-                
                 <div class="diagram-row">
-                    <div class="diagram-node user">
-                        <div class="diagram-node-label">🇺🇸 US</div>
-                        <div class="diagram-node-title">User</div>
-                    </div>
-                    <div class="diagram-node user">
-                        <div class="diagram-node-label">🇪🇺 EU</div>
-                        <div class="diagram-node-title">User</div>
-                    </div>
-                    <div class="diagram-node user">
-                        <div class="diagram-node-label">🇯🇵 Asia</div>
-                        <div class="diagram-node-title">User</div>
-                    </div>
+                    <div class="diagram-node user"><div class="diagram-node-label">🇺🇸 US</div><div class="diagram-node-title">User</div></div>
+                    <div class="diagram-node user"><div class="diagram-node-label">🇪🇺 EU</div><div class="diagram-node-title">User</div></div>
+                    <div class="diagram-node user"><div class="diagram-node-label">🇯🇵 Asia</div><div class="diagram-node-title">User</div></div>
                 </div>
-                
                 <div class="diagram-arrow">↓ BGP routes to nearest</div>
-                
                 <div class="diagram-row">
-                    <div class="diagram-node edge">
-                        <div class="diagram-node-label">Vultr LA</div>
-                        <div class="diagram-node-title">Edge PoP</div>
-                    </div>
-                    <div class="diagram-node edge">
-                        <div class="diagram-node-label">Hetzner DE</div>
-                        <div class="diagram-node-title">Edge PoP</div>
-                    </div>
-                    <div class="diagram-node edge">
-                        <div class="diagram-node-label">Vultr Tokyo</div>
-                        <div class="diagram-node-title">Edge PoP</div>
-                    </div>
+                    <div class="diagram-node edge"><div class="diagram-node-label">Vultr LA</div><div class="diagram-node-title">Edge PoP</div></div>
+                    <div class="diagram-node edge"><div class="diagram-node-label">Hetzner DE</div><div class="diagram-node-title">Edge PoP</div></div>
+                    <div class="diagram-node edge"><div class="diagram-node-label">Vultr Tokyo</div><div class="diagram-node-title">Edge PoP</div></div>
                 </div>
-                
                 <div class="diagram-arrow">↓ encrypted tunnel</div>
-                
                 <div class="diagram-row">
-                    <div class="diagram-node mesh">
-                        <div class="diagram-node-label">wgmesh</div>
-                        <div class="diagram-node-title">🔐 WireGuard Full Mesh (10.77.0.0/16)</div>
-                    </div>
+                    <div class="diagram-node mesh"><div class="diagram-node-label">wgmesh</div><div class="diagram-node-title">🔐 WireGuard Full Mesh (10.77.0.0/16)</div></div>
                 </div>
-                
                 <div class="diagram-arrow">↓ routes to internal IP</div>
-                
                 <div class="diagram-row">
-                    <div class="diagram-node origin">
-                        <div class="diagram-node-label">🏠 Japan</div>
-                        <div class="diagram-node-title">WordPress</div>
-                    </div>
-                    <div class="diagram-node origin">
-                        <div class="diagram-node-label">🇱🇹 Lithuania</div>
-                        <div class="diagram-node-title">API</div>
-                    </div>
-                    <div class="diagram-node origin">
-                        <div class="diagram-node-label">☁️ B2</div>
-                        <div class="diagram-node-title">Media</div>
-                    </div>
+                    <div class="diagram-node origin"><div class="diagram-node-label">🏠 Japan</div><div class="diagram-node-title">WordPress</div></div>
+                    <div class="diagram-node origin"><div class="diagram-node-label">🇱🇹 Lithuania</div><div class="diagram-node-title">API</div></div>
+                    <div class="diagram-node origin"><div class="diagram-node-label">☁️ B2</div><div class="diagram-node-title">Media</div></div>
                 </div>
             </div>
         </div>
@@ -734,32 +248,20 @@
             
             <div class="two-legs">
                 <div class="leg public">
-                    <h4>
-                        <div class="leg-icon">🌐</div>
-                        Public Leg (eth0)
-                    </h4>
+                    <h4><div class="leg-icon">🌐</div> Public Leg (eth0)</h4>
                     <div class="code-block">
-                        <span class="comment"># Anycast IP - same on ALL edge nodes</span><br>
-                        eth0: <span class="string">2001:db8:any::1</span><br><br>
-                        <span class="comment"># BGP announces to upstream</span><br>
-                        <span class="keyword">neighbor</span> vultr <span class="keyword">announce</span> 2001:db8::/48<br><br>
-                        <span class="comment"># nginx terminates TLS here</span><br>
-                        listen <span class="number">443</span> ssl;
+                        <span class="comment"># Anycast IP - same on ALL edge nodes</span><br>eth0: <span class="string">2001:db8:any::1</span><br><br>
+                        <span class="comment"># BGP announces to upstream</span><br><span class="keyword">neighbor</span> vultr <span class="keyword">announce</span> 2001:db8::/48<br><br>
+                        <span class="comment"># nginx terminates TLS here</span><br>listen <span class="number">443</span> ssl;
                     </div>
                     <p style="color: var(--text-muted); margin-top: 1rem;">Users connect here. BGP magic routes them to the nearest edge.</p>
                 </div>
                 <div class="leg mesh">
-                    <h4>
-                        <div class="leg-icon">🔐</div>
-                        Mesh Leg (wg0)
-                    </h4>
+                    <h4><div class="leg-icon">🔐</div> Mesh Leg (wg0)</h4>
                     <div class="code-block">
-                        <span class="comment"># Unique mesh IP per node</span><br>
-                        wg0: <span class="string">10.77.0.10</span>/16<br><br>
-                        <span class="comment"># Auto-joins mesh with secret</span><br>
-                        wgmesh join --secret <span class="string">'cdn-2025'</span><br><br>
-                        <span class="comment"># Backend routing</span><br>
-                        proxy_pass http://<span class="string">10.77.1.50</span>;
+                        <span class="comment"># Unique mesh IP per node</span><br>wg0: <span class="string">10.77.0.10</span>/16<br><br>
+                        <span class="comment"># Auto-joins mesh with secret</span><br>wgmesh join --secret <span class="string">'cdn-2025'</span><br><br>
+                        <span class="comment"># Backend routing</span><br>proxy_pass http://<span class="string">10.77.1.50</span>;
                     </div>
                     <p style="color: var(--text-muted); margin-top: 1rem;">Internal traffic flows through encrypted WireGuard mesh.</p>
                 </div>
@@ -810,10 +312,7 @@
                     </div>
                 </div>
             </div>
-            
-            <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
-                No GeoDNS needed. No latency from DNS resolution. Pure routing magic.
-            </p>
+            <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No GeoDNS needed. No latency from DNS resolution. Pure routing magic.</p>
         </div>
     </section>
 
@@ -825,51 +324,13 @@
             <h2>How to Get Your Own IP Prefix</h2>
             
             <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Option</th>
-                        <th>Difficulty</th>
-                        <th>Cost</th>
-                        <th>Time</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Option</th><th>Difficulty</th><th>Cost</th><th>Time</th><th>Notes</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Vultr BGP</strong></td>
-                        <td><span class="badge badge-green">Easy</span></td>
-                        <td>$0 extra</td>
-                        <td>24-48h</td>
-                        <td>Request via support ticket, they allocate /48</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Path.net</strong></td>
-                        <td><span class="badge badge-green">Easy</span></td>
-                        <td>~$20/mo/PoP</td>
-                        <td>Instant</td>
-                        <td>Built for anycast, prefix included</td>
-                    </tr>
-                    <tr>
-                        <td><strong>BuyVM</strong></td>
-                        <td><span class="badge badge-green">Easy</span></td>
-                        <td>~$3.50/mo</td>
-                        <td>24h</td>
-                        <td>Budget option with BGP, request prefix</td>
-                    </tr>
-                    <tr>
-                        <td><strong>RIPE LIR</strong></td>
-                        <td><span class="badge badge-orange">Hard</span></td>
-                        <td>€1400/yr</td>
-                        <td>Weeks</td>
-                        <td>Own your prefix forever, more paperwork</td>
-                    </tr>
-                    <tr>
-                        <td><strong>GeoDNS (No BGP)</strong></td>
-                        <td><span class="badge badge-blue">Easiest</span></td>
-                        <td>Free</td>
-                        <td>Instant</td>
-                        <td>Cloudflare DNS geo-steering, no anycast</td>
-                    </tr>
+                    <tr><td><strong>Vultr BGP</strong></td><td><span class="badge badge-green">Easy</span></td><td>$0 extra</td><td>24-48h</td><td>Request via support ticket, they allocate /48</td></tr>
+                    <tr><td><strong>Path.net</strong></td><td><span class="badge badge-green">Easy</span></td><td>~$20/mo/PoP</td><td>Instant</td><td>Built for anycast, prefix included</td></tr>
+                    <tr><td><strong>BuyVM</strong></td><td><span class="badge badge-green">Easy</span></td><td>~$3.50/mo</td><td>24h</td><td>Budget option with BGP, request prefix</td></tr>
+                    <tr><td><strong>RIPE LIR</strong></td><td><span class="badge badge-orange">Hard</span></td><td>€1400/yr</td><td>Weeks</td><td>Own your prefix forever, more paperwork</td></tr>
+                    <tr><td><strong>GeoDNS (No BGP)</strong></td><td><span class="badge badge-blue">Easiest</span></td><td>Free</td><td>Instant</td><td>Cloudflare DNS geo-steering, no anycast</td></tr>
                 </tbody>
             </table>
             
@@ -889,43 +350,19 @@
             <div class="card-grid">
                 <div class="card">
                     <h4>1. Spin up edge VPS</h4>
-                    <div class="code-block">
-                        <span class="comment"># Vultr, Hetzner, or any VPS</span><br>
-                        <span class="comment"># One in each region you want</span><br>
-                        US: Vultr Los Angeles<br>
-                        EU: Hetzner Falkenstein<br>
-                        Asia: Vultr Tokyo
-                    </div>
+                    <div class="code-block"><span class="comment"># Vultr, Hetzner, or any VPS</span><br><span class="comment"># One in each region you want</span><br>US: Vultr Los Angeles<br>EU: Hetzner Falkenstein<br>Asia: Vultr Tokyo</div>
                 </div>
                 <div class="card">
                     <h4>2. Join the mesh</h4>
-                    <div class="code-block">
-                        <span class="comment"># Same command on each edge</span><br>
-                        wgmesh join \<br>
-                        &nbsp;&nbsp;--secret <span class="string">'my-cdn-secret-2025'</span>
-                    </div>
+                    <div class="code-block"><span class="comment"># Same command on each edge</span><br>wgmesh join <br>&nbsp;&nbsp;--secret <span class="string">'my-cdn-secret-2025'</span></div>
                 </div>
                 <div class="card">
                     <h4>3. Configure nginx</h4>
-                    <div class="code-block">
-                        <span class="keyword">upstream</span> backend {<br>
-                        &nbsp;&nbsp;server <span class="string">10.77.1.50</span>:<span class="number">80</span>;<br>
-                        }<br><br>
-                        <span class="keyword">server</span> {<br>
-                        &nbsp;&nbsp;listen <span class="number">443</span> ssl;<br>
-                        &nbsp;&nbsp;proxy_pass http://backend;<br>
-                        }
-                    </div>
+                    <div class="code-block"><span class="keyword">upstream</span> backend {<br>&nbsp;&nbsp;server <span class="string">10.77.1.50</span>:<span class="number">80</span>;<br>}<br><br><span class="keyword">server</span> {<br>&nbsp;&nbsp;listen <span class="number">443</span> ssl;<br>&nbsp;&nbsp;proxy_pass http://backend;<br>}</div>
                 </div>
                 <div class="card">
                     <h4>4. Join origin to mesh</h4>
-                    <div class="code-block">
-                        <span class="comment"># On your home server / origin</span><br>
-                        wgmesh join \<br>
-                        &nbsp;&nbsp;--secret <span class="string">'my-cdn-secret-2025'</span><br><br>
-                        <span class="comment"># Gets mesh IP 10.77.1.50</span><br>
-                        <span class="comment"># Now reachable from all edges!</span>
-                    </div>
+                    <div class="code-block"><span class="comment"># On your home server / origin</span><br>wgmesh join <br>&nbsp;&nbsp;--secret <span class="string">'my-cdn-secret-2025'</span><br><br><span class="comment"># Gets mesh IP 10.77.1.50</span><br><span class="comment"># Now reachable from all edges!</span></div>
                 </div>
             </div>
         </div>
@@ -939,47 +376,61 @@
             <h2>Your Own Global CDN</h2>
             
             <div class="card-grid" style="margin-bottom: 3rem;">
-                <div class="card">
-                    <div class="card-icon">💰</div>
-                    <h4>~$15-20/mo Total</h4>
-                    <p>3x $5 VPS for global coverage. Origins can be free (home server).</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h4>5 Minute Setup</h4>
-                    <p>One command per node. Auto-discovery handles the rest.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">🔒</div>
-                    <h4>End-to-End Encrypted</h4>
-                    <p>TLS to edge, WireGuard to origin. No cleartext ever.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">🏠</div>
-                    <h4>Origin Anywhere</h4>
-                    <p>Home server, Raspberry Pi, or any cloud. Behind NAT = OK.</p>
-                </div>
+                <div class="card"><div class="card-icon">💰</div><h4>~$15-20/mo Total</h4><p>3x $5 VPS for global coverage. Origins can be free (home server).</p></div>
+                <div class="card"><div class="card-icon">⚡</div><h4>5 Minute Setup</h4><p>One command per node. Auto-discovery handles the rest.</p></div>
+                <div class="card"><div class="card-icon">🔒</div><h4>End-to-End Encrypted</h4><p>TLS to edge, WireGuard to origin. No cleartext ever.</p></div>
+                <div class="card"><div class="card-icon">🏠</div><h4>Origin Anywhere</h4><p>Home server, Raspberry Pi, or any cloud. Behind NAT = OK.</p></div>
             </div>
             
             <div class="highlight-box" style="text-align: center;">
-                <p style="font-size: 1.5rem; margin-bottom: 1rem;">
-                    <strong>wgmesh join --secret 'your-secret'</strong>
-                </p>
-                <p style="color: var(--text-muted);">
-                    That's it. Same command everywhere. Mesh forms automatically.
-                </p>
+                <p style="font-size: 1.5rem; margin-bottom: 1rem;"><strong>wgmesh join --secret 'your-secret'</strong></p>
+                <p style="color: var(--text-muted);">That's it. Same command everywhere. Mesh forms automatically.</p>
             </div>
             
             <p style="text-align: center; margin-top: 3rem; color: var(--text-muted);">
-                <a href="https://github.com/atvirokodosprendimai/wgmesh" style="color: var(--green); text-decoration: none;">
-                    github.com/atvirokodosprendimai/wgmesh →
-                </a>
+                <a href="https://github.com/atvirokodosprendimai/wgmesh" style="color: var(--green); text-decoration: none;">github.com/atvirokodosprendimai/wgmesh →</a>
             </p>
         </div>
     </section>
 
+    <!-- Slide 9: LAN Mesh Guide -->
+    <section class="slide slide-3" id="slide-8">
+        <div class="grid-overlay"></div>
+        <div class="content" style="text-align: center;">
+            <span class="tag">New Guide</span>
+            <h2>Mesh Local + Remote<br>Into One LAN</h2>
+            <p class="subtitle" style="margin: 0 auto 3rem;">Connect your Mac, Linux machines, and VPS servers into a single private network. Access any machine from anywhere.</p>
+            
+            <div class="card-grid" style="max-width: 800px; margin: 0 auto 3rem;">
+                <div class="card">
+                    <div class="card-icon">🍎</div>
+                    <h4>macOS Setup</h4>
+                    <p>Homebrew install, LaunchDaemon config</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🐧</div>
+                    <h4>Linux Setup</h4>
+                    <p>Ubuntu, Fedora, Arch instructions</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">☁️</div>
+                    <h4>Remote Servers</h4>
+                    <p>Any VPS, SSH deployment</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h4>Route Advertising</h4>
+                    <p>Expose home LAN through mesh</p>
+                </div>
+            </div>
+            
+            <a href="lan-mesh-guide.html" class="guide-link">
+                📖 Read the LAN Mesh Guide →
+            </a>
+        </div>
+    </section>
+
     <script>
-        // Navigation
         const slides = document.querySelectorAll('.slide');
         const navDots = document.querySelectorAll('.nav-dot');
         const progress = document.getElementById('progress');
@@ -988,7 +439,6 @@
 
         totalSlides.textContent = String(slides.length).padStart(2, '0');
 
-        // Update on scroll
         function updateNav() {
             const scrollPos = window.scrollY;
             const windowHeight = window.innerHeight;
@@ -1004,7 +454,6 @@
                 }
             });
 
-            // Progress bar
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollPos / docHeight) * 100;
             progress.style.width = scrollPercent + '%';
@@ -1012,7 +461,6 @@
 
         window.addEventListener('scroll', updateNav);
 
-        // Click navigation
         navDots.forEach(dot => {
             dot.addEventListener('click', () => {
                 const slideIndex = parseInt(dot.dataset.slide);
@@ -1020,7 +468,6 @@
             });
         });
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             const currentIndex = Array.from(navDots).findIndex(dot => dot.classList.contains('active'));
             
@@ -1039,7 +486,6 @@
             }
         });
 
-        // Initial state
         updateNav();
     </script>
 </body>
