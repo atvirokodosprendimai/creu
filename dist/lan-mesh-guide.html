@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN Mesh Guide - Local + Remote Servers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-accent: #1a1a2e;
+            --text-primary: #e6edf3;
+            --text-muted: #7d8590;
+            --green: #00ff88;
+            --blue: #00d4ff;
+            --purple: #a855f7;
+            --orange: #ff6b35;
+            --yellow: #fbbf24;
+            --red: #ff6b6b;
+            --pink: #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--green);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--green);
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        p strong {
+            color: var(--text-primary);
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-block .comment { color: var(--text-muted); }
+        .code-block .keyword { color: var(--purple); }
+        .code-block .string { color: var(--green); }
+        .code-block .number { color: var(--orange); }
+        .code-block .command { color: var(--blue); }
+
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border-bottom-left-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box p {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .warning-box p {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .bullet-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            min-width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--bg-dark);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .tab.active {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .diagram {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .diagram-nodes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .diagram-node {
+            background: var(--bg-accent);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .diagram-node.mac { border-color: var(--blue); }
+        .diagram-node.linux { border-color: var(--orange); }
+        .diagram-node.server { border-color: var(--purple); }
+        .diagram-node.mesh { border-color: var(--green); background: rgba(0, 255, 136, 0.1); }
+
+        .diagram-arrow {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            background: var(--bg-card);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-green { background: rgba(0, 255, 136, 0.15); color: var(--green); }
+        .badge-blue { background: rgba(0, 212, 255, 0.15); color: var(--blue); }
+        .badge-orange { background: rgba(255, 107, 53, 0.15); color: var(--orange); }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to CDN Architecture</a>
+        
+        <span class="tag">macOS + Linux + Remote Servers</span>
+        <h1>Mesh Local & Remote into One LAN</h1>
+        <p class="subtitle">Connect your Mac, Linux machines, and remote VPS servers into a single private network using WireGuard mesh. Access any machine from anywhere, as if they were on the same local network.</p>
+
+        <h2 id="overview">What You'll Build</h2>
+        
+        <div class="diagram">
+            <div class="diagram-nodes">
+                <div class="diagram-node mac">
+                    <div style="font-size: 1.5rem;">🍎</div>
+                    <div style="font-weight: 600;">MacBook</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.10</div>
+                </div>
+                <div class="diagram-arrow">↔</div>
+                <div class="diagram-node mesh">
+                    <div style="font-size: 1.5rem;">🔐</div>
+                    <div style="font-weight: 600;">WireGuard Mesh</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.0/16</div>
+                </div>
+                <div class="diagram-arrow">↔</div>
+                <div class="diagram-node linux">
+                    <div style="font-size: 1.5rem;">🐧</div>
+                    <div style="font-weight: 600;">Linux Server</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.20</div>
+                </div>
+            </div>
+            <div class="diagram-nodes" style="margin-top: 1.5rem;">
+                <div class="diagram-node server">
+                    <div style="font-size: 1.5rem;">🏠</div>
+                    <div style="font-weight: 600;">Home Server</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.30</div>
+                </div>
+                <div class="diagram-arrow">↔</div>
+                <div class="diagram-node server">
+                    <div style="font-size: 1.5rem;">☁️</div>
+                    <div style="font-weight: 600;">VPS</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.40</div>
+                </div>
+                <div class="diagram-arrow">↔</div>
+                <div class="diagram-node server">
+                    <div style="font-size: 1.5rem;">🗄️</div>
+                    <div style="font-weight: 600;">Database</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.50</div>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; margin-bottom: 0;">All machines can reach each other directly via mesh IP addresses</p>
+        </div>
+
+        <h2 id="prerequisites">Prerequisites</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>🍎 macOS</h4>
+                <ul class="bullet-list">
+                    <li>macOS 10.14+ (Mojave or later)</li>
+                    <li>Admin access for installation</li>
+                    <li>Homebrew (optional but recommended)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🐧 Linux</h4>
+                <ul class="bullet-list">
+                    <li>Kernel 5.6+ (or WireGuard module)</li>
+                    <li>Root/sudo access</li>
+                    <li>systemd (most distributions)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>☁️ Remote Servers</h4>
+                <ul class="bullet-list">
+                    <li>Any VPS (Vultr, Hetzner, DigitalOcean)</li>
+                    <li>SSH access with sudo</li>
+                    <li>Public IP or NAT with port forward</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 id="install-wireguard">Step 1: Install WireGuard</h2>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('macos')">macOS</button>
+            <button class="tab" onclick="showTab('ubuntu')">Ubuntu/Debian</button>
+            <button class="tab" onclick="showTab('fedora')">Fedora/RHEL</button>
+            <button class="tab" onclick="showTab('arch')">Arch Linux</button>
+        </div>
+
+        <div id="macos" class="tab-content active">
+            <h4>Option A: Homebrew (Recommended)</h4>
+            <div class="code-block">
+                <span class="code-label">Terminal</span>
+<span class="comment"># Install WireGuard tools</span>
+<span class="command">brew install wireguard-tools</span>
+
+<span class="comment"># Verify installation</span>
+<span class="command">wg --version</span>
+</div>
+
+            <h4>Option B: Mac App Store (GUI)</h4>
+            <p>Download <a href="https://apps.apple.com/us/app/wireguard/id1451685025" style="color: var(--green);">WireGuard from the App Store</a> for a graphical interface. The CLI tools are still recommended for wgmesh.</p>
+
+            <div class="highlight-box">
+                <p>💡 <strong>Note:</strong> On macOS, WireGuard creates a utun interface. You may need to approve the network extension in System Preferences → Security & Privacy.</p>
+            </div>
+        </div>
+
+        <div id="ubuntu" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">Ubuntu/Debian</span>
+<span class="comment"># Update and install</span>
+<span class="command">sudo apt update</span>
+<span class="command">sudo apt install -y wireguard wireguard-tools</span>
+
+<span class="comment"># Load the kernel module</span>
+<span class="command">sudo modprobe wireguard</span>
+
+<span class="comment"># Verify</span>
+<span class="command">wg --version</span>
+<span class="command">ip link add dev test0 type wireguard 2>/dev/null && echo "OK" && ip link del test0</span>
+</div>
+
+            <h4>Older Ubuntu (18.04)</h4>
+            <div class="code-block">
+<span class="command">sudo add-apt-repository ppa:wireguard/wireguard</span>
+<span class="command">sudo apt update</span>
+<span class="command">sudo apt install -y wireguard</span>
+</div>
+        </div>
+
+        <div id="fedora" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">Fedora/RHEL/CentOS</span>
+<span class="comment"># Fedora</span>
+<span class="command">sudo dnf install -y wireguard-tools</span>
+
+<span class="comment"># RHEL/CentOS 8+</span>
+<span class="command">sudo dnf install -y elrepo-release</span>
+<span class="command">sudo dnf install -y kmod-wireguard wireguard-tools</span>
+
+<span class="comment"># Enable and load module</span>
+<span class="command">sudo modprobe wireguard</span>
+</div>
+        </div>
+
+        <div id="arch" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">Arch Linux</span>
+<span class="comment"># Install WireGuard</span>
+<span class="command">sudo pacman -S wireguard-tools</span>
+
+<span class="comment"># For LTS kernels, also install:</span>
+<span class="command">sudo pacman -S wireguard-lts</span>
+
+<span class="comment"># Load module</span>
+<span class="command">sudo modprobe wireguard</span>
+</div>
+        </div>
+
+        <h2 id="install-wgmesh">Step 2: Install wgmesh</h2>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('wgmesh-macos')">macOS</button>
+            <button class="tab" onclick="showTab('wgmesh-linux')">Linux</button>
+            <button class="tab" onclick="showTab('wgmesh-docker')">Docker</button>
+            <button class="tab" onclick="showTab('wgmesh-source')">From Source</button>
+        </div>
+
+        <div id="wgmesh-macos" class="tab-content active">
+            <div class="code-block">
+                <span class="code-label">Terminal</span>
+<span class="comment"># Download latest release</span>
+<span class="command">curl -sL https://github.com/atvirokodosprendimai/wgmesh/releases/latest/download/wgmesh-darwin-arm64 -o wgmesh</span>
+
+<span class="comment"># For Intel Macs, use:</span>
+<span class="comment"># curl -sL https://github.com/atvirokodosprendimai/wgmesh/releases/latest/download/wgmesh-darwin-amd64 -o wgmesh</span>
+
+<span class="comment"># Make executable</span>
+<span class="command">chmod +x wgmesh</span>
+
+<span class="comment"># Move to PATH</span>
+<span class="command">sudo mv wgmesh /usr/local/bin/</span>
+
+<span class="comment"># Verify</span>
+<span class="command">wgmesh --help</span>
+</div>
+        </div>
+
+        <div id="wgmesh-linux" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">Linux</span>
+<span class="comment"># Download for your architecture</span>
+<span class="command">curl -sL https://github.com/atvirokodosprendimai/wgmesh/releases/latest/download/wgmesh-linux-amd64 -o wgmesh</span>
+
+<span class="comment"># For ARM (Raspberry Pi, etc.)</span>
+<span class="comment"># curl -sL https://github.com/atvirokodosprendimai/wgmesh/releases/latest/download/wgmesh-linux-arm64 -o wgmesh</span>
+
+<span class="comment"># Install</span>
+<span class="command">chmod +x wgmesh && sudo mv wgmesh /usr/local/bin/</span>
+
+<span class="comment"># Verify</span>
+<span class="command">wgmesh --help</span>
+</div>
+        </div>
+
+        <div id="wgmesh-docker" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">Docker</span>
+<span class="comment"># Pull image</span>
+<span class="command">docker pull ghcr.io/atvirokodosprendimai/wgmesh:latest</span>
+
+<span class="comment"># Run with full network access</span>
+<span class="command">docker run --rm --privileged --network host \</span>
+  -v $(pwd)/data:/data \
+  ghcr.io/atvirokodosprendimai/wgmesh:latest --help
+</div>
+        </div>
+
+        <div id="wgmesh-source" class="tab-content">
+            <div class="code-block">
+                <span class="code-label">From Source</span>
+<span class="comment"># Requires Go 1.23+</span>
+<span class="command">git clone https://github.com/atvirokodosprendimai/wgmesh.git</span>
+<span class="command">cd wgmesh</span>
+<span class="command">go build -o wgmesh</span>
+<span class="command">sudo mv wgmesh /usr/local/bin/</span>
+</div>
+        </div>
+
+        <h2 id="create-mesh">Step 3: Create Your Mesh</h2>
+
+        <h3>Option A: Decentralized Mode (Easiest)</h3>
+        <p>Nodes self-discover using a shared secret. Perfect for quickly connecting machines.</p>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Generate a mesh secret</h4>
+                <p>Run this once on any machine:</p>
+                <div class="code-block">
+<span class="command">wgmesh init --secret</span>
+<span class="comment"># Output: wgmesh://v1/A1B2C3D4E5F6...</span>
+</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Join on each machine</h4>
+                <p>Use the same secret on all devices (Mac, Linux, servers):</p>
+                <div class="code-block">
+<span class="comment"># Basic join - auto-assigns mesh IP</span>
+<span class="command">sudo wgmesh join --secret "wgmesh://v1/YOUR-SECRET-HERE"</span>
+
+<span class="comment"># With custom options</span>
+<span class="command">sudo wgmesh join \</span>
+  --secret "wgmesh://v1/YOUR-SECRET-HERE" \
+  --advertise-routes "192.168.1.0/24" \
+  --listen-port 51820 \
+  --interface wg0
+</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Verify connection</h4>
+                <div class="code-block">
+<span class="comment"># Check mesh status</span>
+<span class="command">sudo wgmesh status --secret "wgmesh://v1/YOUR-SECRET-HERE"</span>
+
+<span class="comment"># View WireGuard peers</span>
+<span class="command">sudo wg show</span>
+
+<span class="comment"># Ping another mesh node</span>
+<span class="command">ping 10.77.0.20</span>
+</div>
+            </div>
+        </div>
+
+        <h3>Option B: Centralized Mode (SSH Deployment)</h3>
+        <p>For managing servers from a central control node. Best for production deployments.</p>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Initialize mesh state</h4>
+                <div class="code-block">
+<span class="command">wgmesh -init</span>
+<span class="comment"># Creates mesh-state.json with defaults</span>
+</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Add nodes</h4>
+                <div class="code-block">
+<span class="comment"># Format: hostname:mesh_ip:ssh_host[:port]</span>
+<span class="command">wgmesh -add macbook:10.77.0.10:localhost</span>
+<span class="command">wgmesh -add server1:10.77.0.20:192.168.1.100</span>
+<span class="command">wgmesh -add vps:10.77.0.30:203.0.113.50</span>
+<span class="command">wgmesh -add home:10.77.0.40:home.example.com:2222</span>
+</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Deploy to all nodes</h4>
+                <div class="code-block">
+<span class="command">wgmesh -deploy</span>
+<span class="comment"># SSHs to each node, installs WireGuard, configures mesh</span>
+</div>
+            </div>
+        </div>
+
+        <h2 id="advertise-routes">Step 4: Expose Local Networks</h2>
+
+        <p>Make your home/office network accessible from anywhere through the mesh.</p>
+
+        <div class="diagram">
+            <div class="diagram-nodes">
+                <div class="diagram-node mac">
+                    <div style="font-weight: 600;">MacBook (remote)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.10</div>
+                </div>
+                <div class="diagram-arrow">→</div>
+                <div class="diagram-node mesh">WireGuard Mesh</div>
+                <div class="diagram-arrow">→</div>
+                <div class="diagram-node linux">
+                    <div style="font-weight: 600;">Home Server</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">10.77.0.30</div>
+                </div>
+                <div class="diagram-arrow">→</div>
+                <div class="diagram-node server">
+                    <div style="font-weight: 600;">192.168.1.0/24</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Home LAN</div>
+                </div>
+            </div>
+        </div>
+
+        <h4>On the gateway node (e.g., home server):</h4>
+        <div class="code-block">
+<span class="comment"># Join with route advertisement</span>
+<span class="command">sudo wgmesh join \</span>
+  --secret "wgmesh://v1/YOUR-SECRET" \
+  --advertise-routes "192.168.1.0/24"
+
+<span class="comment"># Enable IP forwarding (Linux)</span>
+<span class="command">echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-wireguard.conf</span>
+<span class="command">sudo sysctl -p /etc/sysctl.d/99-wireguard.conf</span>
+</div>
+
+        <h4>On macOS gateway:</h4>
+        <div class="code-block">
+<span class="comment"># Enable IP forwarding (requires restart)</span>
+<span class="command">sudo sysctl -w net.inet.ip.forwarding=1</span>
+
+<span class="comment"># Make permanent</span>
+<span class="command">echo "net.inet.ip.forwarding=1" | sudo tee -a /etc/sysctl.conf</span>
+</div>
+
+        <h4>Access from any mesh node:</h4>
+        <div class="code-block">
+<span class="comment"># Now you can reach home LAN devices</span>
+<span class="command">ping 192.168.1.50</span>
+<span class="command">ssh user@192.168.1.100</span>
+<span class="command">curl http://192.168.1.200:8080</span>
+</div>
+
+        <h2 id="use-cases">Common Use Cases</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>🏠 Remote Home Access</h4>
+                <p>Access your home network from anywhere. Reach your NAS, smart home, or development servers without opening ports.</p>
+                <div class="code-block">
+<span class="comment"># From coffee shop</span>
+<span class="command">ssh 192.168.1.100</span>
+<span class="comment"># Direct to home server!</span>
+</div>
+            </div>
+
+            <div class="card">
+                <h4>🔐 Secure Development</h4>
+                <p>Connect to staging databases, Redis, or internal APIs as if they were local.</p>
+                <div class="code-block">
+<span class="comment"># Connect to staging DB</span>
+<span class="command">psql -h 10.77.0.50 -U app</span>
+
+<span class="comment"># Redis via mesh</span>
+<span class="command">redis-cli -h 10.77.0.51</span>
+</div>
+            </div>
+
+            <div class="card">
+                <h4>☁️ Multi-Cloud Networking</h4>
+                <p>Connect VPS instances across different providers into one network.</p>
+                <div class="code-block">
+<span class="comment"># Vultr + Hetzner + DO</span>
+<span class="comment"># All in 10.77.0.0/16</span>
+<span class="command">curl http://10.77.0.40/api</span>
+</div>
+            </div>
+
+            <div class="card">
+                <h4>🔄 CI/CD Self-Hosted</h4>
+                <p>Let GitHub Actions runners access internal services securely.</p>
+                <div class="code-block">
+<span class="comment"># Runner in mesh can reach</span>
+<span class="comment"># internal deployment targets</span>
+<span class="command">ssh deploy@10.77.0.30</span>
+</div>
+            </div>
+        </div>
+
+        <h2 id="persistence">Step 5: Persist Configuration</h2>
+
+        <h3>Linux (systemd)</h3>
+        <div class="code-block">
+<span class="comment"># wgmesh creates wg-quick config automatically</span>
+<span class="command">sudo systemctl enable wg-quick@wg0</span>
+<span class="command">sudo systemctl start wg-quick@wg0</span>
+
+<span class="comment"># Check status</span>
+<span class="command">sudo systemctl status wg-quick@wg0</span>
+</div>
+
+        <h3>macOS</h3>
+        <div class="code-block">
+<span class="comment"># Create LaunchDaemon for auto-start</span>
+<span class="command">sudo tee /Library/LaunchDaemons/com.wireguard.wg0.plist <<'EOF'</span>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;com.wireguard.wg0&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/usr/local/bin/wg-quick&lt;/string&gt;
+        &lt;string&gt;up&lt;/string&gt;
+        &lt;string&gt;/usr/local/etc/wireguard/wg0.conf&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+EOF
+
+<span class="command">sudo launchctl load /Library/LaunchDaemons/com.wireguard.wg0.plist</span>
+</div>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <div class="card">
+            <h4>❌ "Permission denied" or "Operation not permitted"</h4>
+            <p>Run with <code style="background: var(--bg-accent); padding: 0.2rem 0.5rem; border-radius: 4px;">sudo</code> on Linux/macOS. WireGuard requires root to create network interfaces.</p>
+        </div>
+
+        <div class="card">
+            <h4>❌ Peers not connecting</h4>
+            <ul class="bullet-list">
+                <li>Check firewall allows UDP on listen port (default 51820)</li>
+                <li>NAT nodes need <code>--keepalive</code> (auto-configured by wgmesh)</li>
+                <li>Verify secret is identical on all nodes</li>
+            </ul>
+            <div class="code-block">
+<span class="command">sudo wg show</span>
+<span class="comment"># Look for "endpoint" and "latest handshake"</span>
+</div>
+        </div>
+
+        <div class="card">
+            <h4>❌ Routes not working</h4>
+            <ul class="bullet-list">
+                <li>Verify IP forwarding is enabled on gateway nodes</li>
+                <li>Check routes exist: <code>ip route show dev wg0</code></li>
+                <li>Home LAN devices need gateway as default route, or static routes back</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h4>❌ macOS: "utun0: error"</h4>
+            <p>macOS may have existing utun interfaces. Try a different interface name:</p>
+            <div class="code-block">
+<span class="command">sudo wgmesh join --secret "..." --interface wg1</span>
+</div>
+        </div>
+
+        <h2 id="security">Security Considerations</h2>
+
+        <div class="warning-box">
+            <p>⚠️ <strong>Important:</strong> The mesh secret is a shared key. Anyone with it can join your network. Keep it secure!</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Consideration</th>
+                    <th>Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mesh Secret</td>
+                    <td>Use strong, random secrets. Rotate periodically.</td>
+                </tr>
+                <tr>
+                    <td>State File</td>
+                    <td>Use <code>--encrypt</code> flag. Store encrypted state in vault.</td>
+                </tr>
+                <tr>
+                    <td>Firewall</td>
+                    <td>Allow UDP 51820. Block all other inbound on mesh interface.</td>
+                </tr>
+                <tr>
+                    <td>Access Control</td>
+                    <td>Each node has unique keys. Compromised node = remove its key.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="quick-reference">Quick Reference</h2>
+
+        <div class="code-block">
+<span class="comment"># Generate secret</span>
+<span class="command">wgmesh init --secret</span>
+
+<span class="comment"># Join mesh</span>
+<span class="command">sudo wgmesh join --secret "wgmesh://v1/SECRET"</span>
+
+<span class="comment"># Join with routes</span>
+<span class="command">sudo wgmesh join --secret "wgmesh://v1/SECRET" --advertise-routes "192.168.1.0/24"</span>
+
+<span class="comment"># Check status</span>
+<span class="command">sudo wgmesh status --secret "wgmesh://v1/SECRET"</span>
+<span class="command">sudo wg show</span>
+
+<span class="comment"># Manual peer test</span>
+<span class="command">wgmesh test-peer --secret "wgmesh://v1/SECRET" --peer 192.168.1.100:51820</span>
+
+<span class="comment"># Leave mesh</span>
+<span class="command">sudo wg-quick down wg0</span>
+</div>
+
+        <div class="highlight-box" style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1.25rem; margin-bottom: 0.5rem;">
+                <strong>That's it!</strong>
+            </p>
+            <p style="color: var(--text-muted);">
+                Your Mac, Linux machines, and servers are now on the same private network.<br>
+                Access any service from anywhere, securely.
+            </p>
+        </div>
+
+        <p style="text-align: center; margin-top: 3rem; color: var(--text-muted);">
+            <a href="https://github.com/atvirokodosprendimai/wgmesh" style="color: var(--green); text-decoration: none;">
+                github.com/atvirokodosprendimai/wgmesh →
+            </a>
+        </p>
+    </div>
+
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
